@@ -15,36 +15,36 @@
   
 2. Local 환경 Docker Image 활용
    - Docker Hub Registry에서 Jenkins Image 찾기
-   ~~~
-   $ docker search jenkins
-   ~~~
+     ~~~
+     $ docker search jenkins
+     ~~~
    - Docker Image Local로 가져오기
-   ~~~
-   # 'jenkins'이름의 official image는 deprecated 되었으므로 두번째로 많이 다운받은 'jenkins/jenkins' 이미지를 받음
-   # 참고 : https://hub.docker.com/_/jenkins/
-   $ docker pull jenkins/jenkins:lts-jdk17 # 원하는 태그 사용
-   ~~~
+     ~~~
+     # 'jenkins'이름의 official image는 deprecated 되었으므로 두번째로 많이 다운받은 'jenkins/jenkins' 이미지를 받음
+     # 참고 : https://hub.docker.com/_/jenkins/
+     $ docker pull jenkins/jenkins:lts-jdk17 # 원하는 태그 사용
+     ~~~
    - Jenkins 기본 Port(8080) 사용 중인지 확인
-   ~~~
-   # 모든 운영체제 사용 가능 명령어
-       $ netstat -a
-       ex) netstat -ano -p tcp | findstr ":8080 "
-
-   # Windows OS 전용 명령어
-       $ Get-NetTCPConnection
-       ex) Get-NetTCPConnection | Where-Object { $_.LocalPort -eq 8080 } | Select-Object OwningProcess, LocalAddress, LocalPort
-   ~~~
+     ~~~
+     # 모든 운영체제 사용 가능 명령어
+         $ netstat -a
+         ex) netstat -ano -p tcp | findstr ":8080 "
+  
+     # Windows OS 전용 명령어
+         $ Get-NetTCPConnection
+         ex) Get-NetTCPConnection | Where-Object { $_.LocalPort -eq 8080 } | Select-Object OwningProcess, LocalAddress, LocalPort
+     ~~~
    - Jenkins Image 실행 (참고 - https://github.com/jenkinsci/docker/blob/master/README.md)
-   ~~~
-   $ docker run -p 8080:8080 --restart=on-failure -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk17
-   ~~~
+     ~~~
+     $ docker run -p 8080:8080 --restart=on-failure -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk17
+     ~~~
    - Jenkins 설치 및 계정 생성
-     - browser에서 jenkins 페이지(localhost:8080) 접속
-     - jenkins 페이지에서 보여지는 초기 비밀번호 경로로 이동
-     ~~~
-     $ docker exec -it <container_id> bash
-     $ cat /var/jenkins_home/secrets/initialAdminPassword
-     ~~~
+     - Browser에서 Jenkins 페이지(localhost:8080) 접속
+     - Jenkins 페이지에서 보여지는 초기 비밀번호 경로로 이동
+       ~~~
+       $ docker exec -it <container_id> bash
+       $ cat /var/jenkins_home/secrets/initialAdminPassword
+       ~~~
      - jenkins 페이지에 초기 비밀번호 입력 후
      - Install suggested plugins
      - 계정 생성
@@ -99,12 +99,70 @@
     - Jenkins 설치 및 계정 생성
      - browser에서 jenkins 페이지(host명:8080) 접속
      - jenkins 페이지에서 보여지는 초기 비밀번호 경로로 이동
-     ~~~
-     $ cat /var/lib/jenkins/secrets/initialAdminPassword
-     ~~~
+       ~~~
+       $ cat /var/lib/jenkins/secrets/initialAdminPassword
+       ~~~
      - jenkins 페이지에 초기 비밀번호 입력 후
      - Install suggested plugins
      - 계정 생성
      - URL 설정(변경없이 진행)
       
 4. Cloud 환경 AWS EC2 기준 Docker Image 활용
+
+**[ Git 설치 및 설정 + 배포 디렉토리 생성 ]**
+1. Local 환경
+    - 작성중...
+2. Cloud 환경 AWS EC2 기준
+    - git 설치
+      ~~~
+      $ yum install git -y
+      ~~~
+    - git 버전 확인(=설치 확인)
+      ~~~
+      $ git --version
+      ~~~
+    - 권한 설정(credential.helper 설정)
+      ~~~
+      # 한번 권한 설정을 해두어 다음 번에 입력을 요구하지 않도록 함
+      $ git config --global credential.helper store
+      ~~~
+    - git branch별 환경 구성
+      ~~~
+      $ cd /
+			$ mkdir data
+      $ cd data
+      $ mkdir 프로젝트명
+          ex) $ mkdir test-api
+      $ cd 프로젝트명
+          ex) $ cd test-api
+      $ mkdir 브랜치명
+          ex) $ mkdir develop
+  				ex) $ mkdir master
+  				ex) $ mkdir main
+      ~~~
+    - 특정 branch clone
+      ~~~
+      $ cd /data/test-api/develop
+      # git clone 레포지토리URL -b 브랜치명 .
+      $ git clone https://github.com/사용자명/nest-test -b develop .
+      > 사용자명 입력
+      > token값 입력(Personal access tokens)
+      ~~~
+    - 폴더 권한 변경
+      ~~~
+      $ cd /data
+      $ chown -R jenkins:jenkins /data/프로젝트명
+          # jenkins 설치시에 디폴트로 jenkins 사용자가 생성되고 그룹이 형성됨 - $ cat /etc/passwd 명령어와 $ cat /etc/group 명령어를 통해 확인 가능
+          # jenkins 설정파일을 바탕으로 생성된 것임을 확인할 수 있음
+          ex) $ chown -R jenkins:jenkins /data/test-api
+      ~~~
+    - Jenkins 사용자로 git 명령어 동작 테스트
+      ~~~
+      $ cd /data/프로젝트명/브랜치명
+          ex) $ cd /data/test-api/develop
+      $ sudo -u jenkins git fetch
+      ~~~
+    - 추가 내용 작성중...
+
+  **[ Jenkins 빌드/배포 Pipeline 설정 ]**
+  - 작성중...
