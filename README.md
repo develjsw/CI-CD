@@ -1,12 +1,16 @@
 <h6>** 공유 목적으로 작성된 내용으로 누구나 따라서 진행할 수 있도록 상세히 기재 **</h6>
 <h3>Jenkins를 활용한 build/deploy 자동화</h3>
-  
+
+<br>
+
 **[ Docker 설치 및 설정 ]**
 1. Local 환경
    - 작성중...
 
 2. Cloud 환경 AWS EC2 기준
    - 작성중...
+
+<br>
 
 **[ Jenkins 설치 및 설정 ]**
 1. Local 환경
@@ -109,6 +113,8 @@
       
 4. Cloud 환경 AWS EC2 기준 Docker Image 활용
 
+<br>
+
 **[ Git 설치 및 설정 + 배포 디렉토리 생성 ]**
 1. Local 환경
     - 작성중...
@@ -164,5 +170,7 @@
       ~~~
     - 추가 내용 작성중...
 
-  **[ Jenkins 빌드/배포 Pipeline 설정 ]**
-  - 작성중...
+<br>
+
+**[ Jenkins 빌드/배포 Pipeline 설정 ]**
+- 작성중...
