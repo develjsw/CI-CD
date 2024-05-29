@@ -16,7 +16,37 @@
 <br>
 
 **[ AWS EC2 초기 설정 ]**
-   - 작성중...
+   - 초기 로그인
+      - Xshell(SSH Client Tool) → AWS에서 제공해주는 계정 (Amazon Linux AMI의 경우 - ec2-user)으로 Key Pair와 함께 로그인
+   - 신규 유저 생성
+      ~~~
+      # 유저 생성
+      $ adduser <생성할 유저명> -u <UID>
+         ex) adduser
+         ex) adduser test -u 1111
+      
+      # 정상 생성 확인
+      $ id <생성한 유저명>
+         ex) $ id test
+      $ cat/etc/passwd | grep "<생성한 유저명>"
+         ex) $ cat /etc/passwd | grep "test"
+      ~~~
+   - 유저 패스워드 추가
+      ~~~
+      $ passwd <생성한 유저명>
+         ex) passwd test
+      ~~~
+   - 패스워드 로그인 설정 (Public Key가 아닌 Password로도 SSH 로그인 가능하도록 설정 변경)
+      ~~~
+      $ vi /etc/ssh/sshd_config
+      $ :/Password
+      $ i
+         > PasswordAuthentication no 부분을 yes로 변경
+      $ :wq
+
+      # sshd 설정 파일 변경사항 적용을 위한 service 재시작
+      $ systemctl restart sshd
+      ~~~
 
 <br>
 
@@ -92,10 +122,10 @@
       $ sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
       ~~~
         - 만약 전자서명 공개키를 2023년 이후 key로 import하지 않으면 'Error: GPG check FAILED'에러가 발생하며 아래와 같이 임시방편으로 해결은 가능하나 추천하지 않음
-        ~~~
-        $ vi /etc/yum.repos.d/jenkins.repo
-        # gpgcheck=1 → gpgcheck=0으로 변경 후 설치 명령어 다시 실행
-        ~~~
+           ~~~
+           $ vi /etc/yum.repos.d/jenkins.repo
+           # gpgcheck=1 → gpgcheck=0으로 변경 후 설치 명령어 다시 실행
+           ~~~
     - 서버 부팅 시 Jenkins 자동 재시작
       ~~~
       $ systemctl enable jenkins
@@ -112,8 +142,10 @@
     - Jenkins 설정 파일 위치/내용 확인(작업 디렉토리 경로, 사용자 계정 권한, 기본 포트 등)
       ~~~
       # 운영체제 버전에 따라 설정 파일이 다름
+      
       # 구버전
       $ cat /etc/sysconfig/jenkins
+      
       # 신버전
       $ cat /usr/lib/systemd/system/jenkins.service
       ~~~
@@ -167,10 +199,11 @@
     - 특정 branch clone
       ~~~
       $ cd /data/test-api/develop
+      
       # git clone 레포지토리URL -b 브랜치명 .
       $ git clone https://github.com/사용자명/nest-test -b develop .
-      > 사용자명 입력
-      > token값 입력(Personal access tokens)
+         > 사용자명 입력
+         > token값 입력(Personal access tokens)
       ~~~
     - 폴더 권한 변경
       ~~~
