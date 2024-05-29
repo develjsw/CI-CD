@@ -17,7 +17,8 @@
 
 **[ AWS EC2 초기 설정 ]**
    - 초기 로그인
-      - Xshell(SSH Client Tool) → AWS에서 제공해주는 계정 (Amazon Linux AMI의 경우 - ec2-user)으로 Key Pair와 함께 로그인
+      - 방법1. Xshell(SSH Client Tool) → AWS에서 제공해주는 계정 (Amazon Linux AMI의 경우 - ec2-user)으로 Key Pair와 함께 로그인
+      - 방법2. AWS console login → 서비스 → EC2 → 인스턴스(실행 중) → 해당 인스턴스 ID 클릭 → 연결 버튼 클릭 → 연결 버튼 클릭
    - 신규 유저 생성
       ~~~
       # 유저 생성
@@ -55,8 +56,50 @@
    - 작성중...
 
 2. Cloud 환경 AWS EC2 기준
-   - 작성중...
+   <h6>** 참고 : 2023년 이전에는 amazon-linux-extras 설치 후 amazon-linux-extras를 통해 docker를 설치 했었으나, 2023년부터 해당 패키지는 없어졌고 yum을 통해 docker 바로 설치 가능해짐 (공식 문서 - https://docs.aws.amazon.com/ko_kr/serverless-application-model/latest/developerguide/install-docker.html) **</h6>
 
+   1. Amazon Linux IAM 2022년 이하 버전에서 docker 설치
+      ~~~
+      # root 권한 + 사용자로 전환
+      $ sudo su
+      
+      # yum 패키지 업데이트
+      $ yum update -y
+   
+      # amazon-linux-extras 패키지 설치
+      $ yum install -y amazon-linux-extras
+   
+      # docker 설치
+      $ amazon-linux-extras install docker -y
+   
+      # docker 상태/버전 확인
+      $ systemctl status docker
+      $ docker --version
+   
+      # docker 데몬 시작, 부팅 시 자동 재시작
+      $ systemctl start docker
+      $ systemctl enable docker
+      ~~~
+   3. Amazon Linux IAM 2023년 이상 버전에서 docker 설치
+      ~~~
+      # root 권한 + 사용자로 전환
+      $ sudo su
+   
+      # yum 패키지 업데이트
+      $ yum update -y
+   
+      # docker 설치
+      $ yum install -y docker
+   
+      # docker 설치/상태/버전 확인
+      $ rpm -qa | grep "docker"
+      $ systemctl status docker
+      $ docker --version
+   
+      # docker 데몬 시작, 부팅 시 자동 재시작
+      $ systemctl start docker
+      $ systemctl enable docker
+      ~~~
 <br>
 
 **[ Jenkins 설치 및 설정 ]**
