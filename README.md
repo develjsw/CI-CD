@@ -3,6 +3,23 @@
 
 <br>
 
+**[ AWS EC2 인스턴스 생성 ]**
+   - AWS console login → 서비스 → EC2 → 인스턴스 시작
+   - 설정 값 입력
+      - Amazon Linux AMI 사용
+      - t2.micro 선택
+      - Key Pair 생성
+      - 보안그룹 생성
+      - SSH 트래픽 허용 - 위치 무관
+      - 스토리지 30 GB - SSD gp3
+
+<br>
+
+**[ AWS EC2 초기 설정 ]**
+   - 작성중...
+
+<br>
+
 **[ Docker 설치 및 설정 ]**
 1. Local 환경
    - 작성중...
@@ -130,12 +147,13 @@
     - 권한 설정(credential.helper 설정)
       ~~~
       # 한번 권한 설정을 해두어 다음 번에 입력을 요구하지 않도록 함
+      ## 사용자 마다 config 설정이 되므로 AWS EC2 초기 설정에서 생성한 계정으로 로그인 후 아래 명령어 실행 ##
       $ git config --global credential.helper store
       ~~~
     - git branch별 환경 구성
       ~~~
       $ cd /
-			$ mkdir data
+      $ mkdir data
       $ cd data
       $ mkdir 프로젝트명
           ex) $ mkdir test-api
@@ -143,8 +161,8 @@
           ex) $ cd test-api
       $ mkdir 브랜치명
           ex) $ mkdir develop
-  				ex) $ mkdir master
-  				ex) $ mkdir main
+  	  ex) $ mkdir master
+  	  ex) $ mkdir main
       ~~~
     - 특정 branch clone
       ~~~
