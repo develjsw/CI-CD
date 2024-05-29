@@ -110,6 +110,7 @@
 2. Local 환경 Docker Image 활용
    - Docker Hub Registry에서 Jenkins Image 찾기
      ~~~
+     $ sudo su
      $ docker search jenkins
      ~~~
    - Docker Image Local로 가져오기
@@ -149,6 +150,7 @@
       - AWS 콘솔 로그인 → AWS EC2 인스턴스 → 보안 → 보안 그룹 → 인바운드 규칙 → 인바운드 규칙 편집 → 사용자 지정 TCP, 8080, 내 IP 추가
     - JDK 설치(JRE 포함)
       ~~~
+      $ sudo su
       $ yum update -y
       $ yum install java-11-amazon-corretto
       ~~~
@@ -159,16 +161,20 @@
     - Jenkins 개발사 전자서명 공개키 Import
       ~~~
       # 2023년 이전
-      ## $ sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key ##
+      ## $ rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key ##
       
       # 2023년 이후
-      $ sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+      $ rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
       ~~~
         - 만약 전자서명 공개키를 2023년 이후 key로 import하지 않으면 'Error: GPG check FAILED'에러가 발생하며 아래와 같이 임시방편으로 해결은 가능하나 추천하지 않음
            ~~~
            $ vi /etc/yum.repos.d/jenkins.repo
            # gpgcheck=1 → gpgcheck=0으로 변경 후 설치 명령어 다시 실행
            ~~~
+    - Jenkins 설치
+      ~~~
+      $ yum install jenkins -y
+      ~~~    
     - 서버 부팅 시 Jenkins 자동 재시작
       ~~~
       $ systemctl enable jenkins
@@ -213,6 +219,7 @@
 2. Cloud 환경 AWS EC2 기준
     - git 설치
       ~~~
+      $ sudo su
       $ yum install git -y
       ~~~
     - git 버전 확인(=설치 확인)
