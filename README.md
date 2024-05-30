@@ -219,8 +219,7 @@
 2. Cloud 환경 AWS EC2 기준
     - git 설치
       ~~~
-      $ sudo su
-      $ yum install git -y
+      $ sudo yum install git -y
       ~~~
     - git 버전 확인(=설치 확인)
       ~~~
@@ -230,21 +229,18 @@
       ~~~
       # 한번 권한 설정을 해두어 다음 번에 입력을 요구하지 않도록 함
       ## 사용자 마다 config 설정이 되므로 AWS EC2 초기 설정에서 생성한 계정으로 로그인 후 아래 명령어 실행 ##
+      $ su 사용할계정
+         ex) $ su test
+            > 패스워드 입력
       $ git config --global credential.helper store
       ~~~
     - git branch별 환경 구성
       ~~~
-      $ cd /
-      $ mkdir data
-      $ cd data
-      $ mkdir 프로젝트명
-          ex) $ mkdir test-api
-      $ cd 프로젝트명
-          ex) $ cd test-api
-      $ mkdir 브랜치명
-          ex) $ mkdir develop
-  	  ex) $ mkdir master
-  	  ex) $ mkdir main
+      $ sudo su
+      $ mkdir -p /data/프로젝트명/브랜치명
+         ex) $ mkdir -p /data/test-api/develop
+         ex) $ mkdir -p /data/test-api/master
+         ex) $ mkdir -p /data/test-api/main
       ~~~
     - 특정 branch clone
       ~~~
