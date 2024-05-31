@@ -146,7 +146,7 @@
        $ sudo cat /var/jenkins_home/secrets/initialAdminPassword
        ~~~
      - jenkins 페이지에 초기 비밀번호 입력 후
-     - $ sudo Install suggested plugins
+     - Install suggested plugins 선택
      - 계정 생성
      - URL 설정(변경없이 진행)
 
@@ -210,7 +210,7 @@
        $ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
        ~~~
      - jenkins 페이지에 초기 비밀번호 입력 후
-     - Install suggested plugins
+     - Install suggested plugins 선택
      - 계정 생성
      - URL 설정(변경없이 진행)
       
