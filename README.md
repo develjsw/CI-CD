@@ -22,31 +22,38 @@
    - 신규 유저 생성
       ~~~
       # 유저 생성
-      $ adduser <생성할 유저명> -u <UID>
-         ex) adduser
-         ex) adduser test -u 1111
+      $ sudo adduser <생성할 유저명> -u <UID>
+         ex) sudo adduser test
+         ex) sudo adduser test -u 1111
+
+      # root 권한 추가
+      $ sudo usermod -aG wheel <UID>
+         ex) sudo usermod -aG wheel test
       
-      # 정상 생성 확인
+      # 유저 생성/권한 정상동작 확인
       $ id <생성한 유저명>
          ex) $ id test
-      $ cat/etc/passwd | grep "<생성한 유저명>"
-         ex) $ cat /etc/passwd | grep "test"
+      $ cat /etc/passwd | grep <생성한 유저명>
+         ex) $ cat /etc/passwd | grep test
+      $ cat /etc/group | grep <생성한 유저명>
+         ex) $ cat /etc/group | grep test
       ~~~
    - 유저 패스워드 추가
       ~~~
-      $ passwd <생성한 유저명>
-         ex) passwd test
+      $ sudo passwd <생성한 유저명>
+         ex) sudo passwd test
       ~~~
    - 패스워드 로그인 설정 (Public Key가 아닌 Password로도 SSH 로그인 가능하도록 설정 변경)
       ~~~
-      $ vi /etc/ssh/sshd_config
+      $ sudo vi /etc/ssh/sshd_config
       $ :/Password
       $ i
          > PasswordAuthentication no 부분을 yes로 변경
+         > esc
       $ :wq
 
       # sshd 설정 파일 변경사항 적용을 위한 service 재시작
-      $ systemctl restart sshd
+      $ sudo systemctl restart sshd
       ~~~
 
 <br>
