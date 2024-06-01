@@ -213,7 +213,10 @@
      - Install suggested plugins 선택
      - 계정 생성
      - URL 설정(변경없이 진행)
-      
+     - browser에서 jenkins 페이지(host명:8080) 접속
+        - built-in node 오프라인 으로 표시되어 있는 경우 : 
+        Jenkins 관리 → Nodes → Built-In Node 설정 → Disk Space Monitoring Thresholds의 Free Temp Space Threshold 값 적절하게 설정 변경
+        - <h6>** 참고 : 'Disk space is below threshold of 1.00 GiB. Only 471.49 MiB out of 474.78 MiB left on /tmp.'의 문구를 통해 /tmp 디렉토리의 남은 용량인 471.49MiB 값이 설정된 임계값(Free Temp Space Threshold)인 1GiB(1024MiB)보다 낮아서 에러가 발생하고 빌드가 실행이 안되는 상태로 Free Temp Space Threshold 값을 1GiB → 200MiB로 변경해주어 해결 **</h6>
 4. Cloud 환경 AWS EC2 기준 Docker Image 활용
 
 <br>
