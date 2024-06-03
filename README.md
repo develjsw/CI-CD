@@ -269,14 +269,17 @@
     - 폴더 권한 변경
       ~~~
       $ cd /data
-      $ sudo chown -R 생성한 유저명:생성한 유저명 /data/프로젝트명
-         ex) $ sudo chown -R test:test /data/test-api
+
+      # jenkins 설치시에 설정파일을 바탕으로 jenkins 사용자와 그룹이 생성되어 있음
+      $ chown -R jenkins:jenkins /data/프로젝트명
+         ex) $ sudo chown -R jenkins:jenkins /data/test-api
       ~~~
-    - git 명령어 동작 테스트 (생성했던 유저명으로)
+    - jenkins 사용자로 git 명령어 동작 테스트
       ~~~
       $ cd /data/프로젝트명/브랜치명
           ex) $ cd /data/test-api/develop
-      $ sudo -u test git fetch
+      $ sudo -u jenkins git fetch
+      $ sudo -u jenkins git pull
       ~~~
 
 <br>
@@ -307,4 +310,16 @@
            ex) * * * * *
       - Build Steps
          - Execute shell (Linux OS 환경)
-           - 코드 작성...
+           ~~~
+           ## git pull ##
+           cd /data/test-api/develop
+           git fetch
+           git pull
+           
+           ## 해당 이미지 생성 ##
+           docker build -t <docker_hub_registry>:${BUILD_NUMBER} -f dockerfile/Dockerfile
+           
+           작성중...
+           ~~~
+- Deploy Job 생성
+   - 작성중... 
