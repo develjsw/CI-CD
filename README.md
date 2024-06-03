@@ -221,6 +221,15 @@
 
 <br>
 
+**[ Git Personal access tokens 발급 ]**
+   - github login → 프로필 Settings → Developer Settings → Personal access tokens → Tokens (classic) → Generate new token → Tokens (classic)
+   - 설정 값 입력
+      - Expiration : 90 days (원하는 기간으로 설정)
+      - repo 전체, admin:repo_hook 전체, admin:org_hook 체크
+   - Generate Token 버튼 클릭 <h6>** 참고 : 생성된 토큰은 별도로 보관하여 사용(재발급은 가능하나 잊어버리면 찾을 수 없음) **</h6>
+     
+<br>
+
 **[ Git 설치 및 설정 + 배포 디렉토리 생성 ]**
 1. Local 환경
     - 작성중...
@@ -233,10 +242,10 @@
       ~~~
       $ git --version
       ~~~
-    - 권한 설정(credential.helper 설정)
+    - git 자격증명 저장
       ~~~
-      # 한번 권한 설정을 해두어 다음 번에 입력을 요구하지 않도록 함
-      ## 사용자 마다 config 설정이 되므로 AWS EC2 초기 설정에서 생성한 계정으로 로그인 후 아래 명령어 실행 ##
+      # git 자격증명 설정을 해둠으로써 git 명령어 사용 시 '사용자 이름 + 비밀번호' 입력하지 않도록 설정
+      # 사용자마다 git config 설정이 되므로 AWS EC2 초기 설정에서 생성한 계정으로 로그인 후 아래 명령어 실행 #
       $ su 사용할계정
          ex) $ su test
             > 패스워드 입력
@@ -244,11 +253,10 @@
       ~~~
     - git branch별 환경 구성
       ~~~
-      $ sudo su
-      $ mkdir -p /data/프로젝트명/브랜치명
-         ex) $ mkdir -p /data/test-api/develop
-         ex) $ mkdir -p /data/test-api/master
-         ex) $ mkdir -p /data/test-api/main
+      $ sudo mkdir -p /data/프로젝트명/브랜치명
+         ex) $ sudo mkdir -p /data/test-api/develop
+         ex) $ sudo mkdir -p /data/test-api/master
+         ex) $ sudo mkdir -p /data/test-api/main
       ~~~
     - 특정 branch clone
       ~~~
