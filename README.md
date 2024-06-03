@@ -263,7 +263,7 @@
       $ cd /data/test-api/develop
       
       # sudo git clone 레포지토리URL -b 브랜치명 .
-      $ sudo git clone https://github.com/사용자명/nest-test -b develop .
+      $ sudo git clone https://github.com/사용자명/test-api -b develop .
          > 사용자명 입력
       ~~~
     - 폴더 권한 변경
@@ -282,4 +282,29 @@
 <br>
 
 **[ Jenkins 빌드/배포 Pipeline 설정 ]**
-- 작성중...
+- Jenkins에 Credential 추가
+   - Jenkins 관리자 페이지 로그인 → Jenkins 관리 → Credentials (관리) (버전에 따라 약간의 명칭 다름) → Stores from parent - Domains (global) → Add Credential
+   - 설정 값 입력
+      - Kind : Username with password
+      - Scope : Global (Jenkins, nodes, items, all child items, etc)
+      - Username : AWS EC2에서 생성했던 유저명 입력 ex) test
+      - Password : AWS EC2에서 생성했던 유저의 비밀번호 입력 ex) test1111
+      - ID : 선택사항, 입력하지 않으면 Jenkins가 자동으로 고유 식별자 생성
+      - Description : 선택사항
+- Build Job 생성
+   - 새로운 Item 생성 → Freestyle project → 이름 입력 후 설정 페이지로 이동 ex) test-api-build
+   - 설정 값 입력
+      - 소스 코드 관리
+         - Git - Repositories - Repository URL : github repository 입력<br>
+            ex) https://github.com/사용자명/test-api
+         - Git - Repositories - Credentials : 우리가 생성했던 AWS EC2 사용자 Credential 선택<br>
+            ex) test/****** (test용 생성)
+         - Git - Branches to build - Branch Specifier (blank for 'any') : 빌드 할 기준 브랜치명 입력<br>
+            ex) */develop
+         - Git - Repository browser : (자동)
+      - 빌드 유발
+         - Poll SCM - Schedule : 정기적으로 소스 코드 관리(SCM) 저장소를 검사하여 변경 사항이 있는지 확인하여 변경 사항이 발견되면 빌드를 트리거하는 기능<br>
+           ex) * * * * *
+      - Build Steps
+         - Execute shell (Linux OS 환경)
+           - 코드 작성...
