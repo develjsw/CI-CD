@@ -262,26 +262,22 @@
       ~~~
       $ cd /data/test-api/develop
       
-      # git clone 레포지토리URL -b 브랜치명 .
-      $ git clone https://github.com/사용자명/nest-test -b develop .
+      # sudo git clone 레포지토리URL -b 브랜치명 .
+      $ sudo git clone https://github.com/사용자명/nest-test -b develop .
          > 사용자명 입력
-         > token값 입력(Personal access tokens)
       ~~~
     - 폴더 권한 변경
       ~~~
       $ cd /data
-      $ chown -R jenkins:jenkins /data/프로젝트명
-          # jenkins 설치시에 디폴트로 jenkins 사용자가 생성되고 그룹이 형성됨 - $ cat /etc/passwd 명령어와 $ cat /etc/group 명령어를 통해 확인 가능
-          # jenkins 설정파일을 바탕으로 생성된 것임을 확인할 수 있음
-          ex) $ chown -R jenkins:jenkins /data/test-api
+      $ sudo chown -R 생성한 유저명:생성한 유저명 /data/프로젝트명
+         ex) $ sudo chown -R test:test /data/test-api
       ~~~
-    - Jenkins 사용자로 git 명령어 동작 테스트
+    - git 명령어 동작 테스트 (생성했던 유저명으로)
       ~~~
       $ cd /data/프로젝트명/브랜치명
           ex) $ cd /data/test-api/develop
-      $ sudo -u jenkins git fetch
+      $ sudo -u test git fetch
       ~~~
-    - 추가 내용 작성중...
 
 <br>
 
