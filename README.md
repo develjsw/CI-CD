@@ -287,14 +287,26 @@
 
 <br>
 
+**[ AWS EC2 docker 사용자 그룹에 jenkins 사용자 추가 ]**
+   - Execute shell에서 docker관련 명령어 사용을 위해 docker 그룹에 jenkins 사용자 추가
+      ~~~
+      # docker그룹에 jenkins 사용자 넣기
+      $ sudo usermod -aG docker jenkins
+
+      # docker그룹에 jenkins가 소속되었는지 확인
+      $ groups jenkins
+      ~~~
+
+<br>
+
 **[ Jenkins 빌드/배포 Pipeline 설정 ]**
 - Jenkins에 Credential 추가
    - Jenkins 관리자 페이지 로그인 → Jenkins 관리 → Credentials (관리) (버전에 따라 약간의 명칭 다름) → Stores from parent - Domains (global) → Add Credential
    - 설정 값 입력
       - Kind : Username with password
       - Scope : Global (Jenkins, nodes, items, all child items, etc)
-      - Username : AWS EC2에서 생성했던 유저명 입력 ex) test
-      - Password : AWS EC2에서 생성했던 유저의 비밀번호 입력 ex) test1111
+      - Username : Github UserName ex) develjsw
+      - Password : Github Personal Access Token ex) ghp_토큰
       - ID : 선택사항, 입력하지 않으면 Jenkins가 자동으로 고유 식별자 생성
       - Description : 선택사항
 - Build Job 생성
@@ -303,8 +315,9 @@
       - 소스 코드 관리
          - Git - Repositories - Repository URL : github repository 입력<br>
             ex) https://github.com/사용자명/test-api
-         - Git - Repositories - Credentials : 우리가 생성했던 AWS EC2 사용자 Credential 선택<br>
-            ex) test/****** (test용 생성)
+         - Git - Repositories - Credentials : 위에서 생성 해둔 Github 자격증명 선택<br>
+            ex) develjsw/****** (gibhub 자격증명용)
+            <h6>** 참고 : github private repository인 경우에만 자격증명 선택, 아닌경우 None 선택 **</h6>
          - Git - Branches to build - Branch Specifier (blank for 'any') : 빌드 할 기준 브랜치명 입력<br>
             ex) */develop
          - Git - Repository browser : (자동)
@@ -319,8 +332,9 @@
            git fetch
            git pull
            
-           ## 해당 이미지 생성 ##
-           docker build -t <docker_hub_registry>:${BUILD_NUMBER} -f dockerfile/Dockerfile
+           ## docker image build ##
+           # docker build -t <docker hub registry>:<tag> -f <도커 파일 위치> .
+           # docker image tag <docker hub registry>:<tag> <docker hub registry>:latest
            
            작성중...
            ~~~
