@@ -24,7 +24,7 @@
    - 초기 로그인
       - 방법1. Xshell(SSH Client Tool) → AWS에서 제공해주는 계정 (Amazon Linux AMI의 경우 - ec2-user)으로 Key Pair와 함께 로그인
       - 방법2. AWS console login → 서비스 → EC2 → 인스턴스(실행 중) → 해당 인스턴스 ID 클릭 → 연결 버튼 클릭 → 연결 버튼 클릭
-   - 신규 유저 생성
+   - (미사용) 신규 유저 생성
       ~~~
       # 유저 생성
       $ sudo adduser <생성할 유저명> -u <UID>
@@ -43,7 +43,7 @@
       $ cat /etc/group | grep <생성한 유저명>
          ex) $ cat /etc/group | grep test
       ~~~
-   - 유저 패스워드 추가
+   - (미사용) 유저 패스워드 추가
       ~~~
       $ sudo passwd <생성한 유저명>
          ex) sudo passwd test
@@ -230,7 +230,7 @@
      
 <br>
 
-**[ Git 설치 및 설정 + 배포 디렉토리 생성 ]**
+**[ Git 설치 및 설정 + 빌드/배포 디렉토리 생성 ]**
 1. Local 환경
     - 작성중...
 2. Cloud 환경 AWS EC2 기준
@@ -244,35 +244,38 @@
       ~~~
     - git 자격증명 저장
       ~~~
-      # git 자격증명 설정을 해둠으로써 git 명령어 사용 시 '사용자 이름 + 비밀번호' 입력하지 않도록 설정
-      # 사용자마다 git config 설정이 되므로 AWS EC2 초기 설정에서 생성한 계정으로 로그인 후 아래 명령어 실행 #
-      $ su 사용할계정
-         ex) $ su test
-            > 패스워드 입력
-      $ git config --global credential.helper store
+      # git 자격증명 설정을 해둠으로써 git 명령어 사용 시 '사용자 이름 + 비밀번호(Personal Access Token)' 입력하지 않도록 설정
+      # 사용자마다 git config 설정이 되므로 주의 #
+      $ sudo -u 설정할계정 git config --global credential.helper store
+         ex) $ sudo -u jenkins git config --global credential.helper store
+            > 사용자명 입력
+            > 비밀번호(Personal Access Token) 입력
+      ~~~
+    - 사용자 변경(root)
+      ~~~
+      $ sudo su
       ~~~
     - git branch별 환경 구성
       ~~~
       $ sudo mkdir -p /data/프로젝트명/브랜치명
-         ex) $ sudo mkdir -p /data/test-api/develop
-         ex) $ sudo mkdir -p /data/test-api/master
-         ex) $ sudo mkdir -p /data/test-api/main
+         ex) $ mkdir -p /data/test-api/develop
+         ex) $ mkdir -p /data/test-api/master
+         ex) $ mkdir -p /data/test-api/main
       ~~~
-    - 특정 branch clone
+    - 특정 branch 기준 clone
       ~~~
       $ cd /data/test-api/develop
       
-      # sudo git clone 레포지토리URL -b 브랜치명 .
-      $ sudo git clone https://github.com/사용자명/test-api -b develop .
-         > 사용자명 입력
+      # git clone 레포지토리URL -b 브랜치명 .
+      $ git clone https://github.com/사용자명/test-api -b develop .
       ~~~
-    - 폴더 권한 변경
+    - 폴더 권한 jenkins로 변경 (Jenkins Execute Shell에서 명령어 실행할 수 있도록)
       ~~~
       $ cd /data
 
       # jenkins 설치시에 설정파일을 바탕으로 jenkins 사용자와 그룹이 생성되어 있음
       $ chown -R jenkins:jenkins /data/프로젝트명
-         ex) $ sudo chown -R jenkins:jenkins /data/test-api
+         ex) $ chown -R jenkins:jenkins /data/test-api
       ~~~
     - jenkins 사용자로 git 명령어 동작 테스트
       ~~~
