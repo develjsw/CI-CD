@@ -221,13 +221,22 @@
 
 <br>
 
-**[ Git Personal access tokens 발급 ]**
+**[ Github Personal Access Tokens 발급 ]**
    - github login → 프로필 Settings → Developer Settings → Personal access tokens → Tokens (classic) → Generate new token → Tokens (classic)
    - 설정 값 입력
       - Expiration : 90 days (원하는 기간으로 설정)
       - repo 전체, admin:repo_hook 전체, admin:org_hook 체크
    - Generate Token 버튼 클릭 <h6>** 참고 : 생성된 토큰은 별도로 보관하여 사용(재발급은 가능하나 잊어버리면 찾을 수 없음) **</h6>
-     
+
+<br>
+
+**[ Docker Hub Personal Access Tokens 발급 ]**
+   - docker hub login → Account settings → Security → New Access Token
+   - 설정 값 입력
+      - Access Token Description : docker hub image 접근/사용
+	   - Access permissions : Read, Write, Delete
+   - Generate 버튼 클릭 <h6>** 참고 : 생성된 토큰은 별도로 보관하여 사용(재발급은 가능하나 잊어버리면 찾을 수 없음) **</h6>
+   
 <br>
 
 **[ Git 설치 및 설정 + 빌드/배포 디렉토리 생성 ]**
@@ -338,12 +347,20 @@ $ free -h
 - Jenkins에 Credential 추가
    - Jenkins 관리자 페이지 로그인 → Jenkins 관리 → Credentials (관리) (버전에 따라 약간의 명칭 다름) → Stores from parent - Domains (global) → Add Credential
    - 설정 값 입력
-      - Kind : Username with password
-      - Scope : Global (Jenkins, nodes, items, all child items, etc)
-      - Username : Github UserName ex) develjsw
-      - Password : Github Personal Access Token ex) ghp_토큰
-      - ID : 선택사항, 입력하지 않으면 Jenkins가 자동으로 고유 식별자 생성
-      - Description : 선택사항
+      - Github Personal Access Token
+         - Kind : Username with password
+         - Scope : Global (Jenkins, nodes, items, all child items, etc)
+         - Username : Github UserName ex) develjsw
+         - Password : Github Personal Access Token ex) ghp_토큰
+         - ID : 선택사항, 입력하지 않으면 Jenkins가 자동으로 고유 식별자 생성
+         - Description : 선택사항이나 입력 권장 (Username이 같은 다른 credential과 구분하기 위해)
+     - Docker Hub Personal Access Token
+        - Kind : Username with password
+        - Scope : Global (Jenkins, nodes, items, all child items, etc)
+        - Username : Docker Hub UserName ex) develjsw
+        - Password : Docker Hub Personal Access Token ex) dckr_pat_토큰
+        - ID : 선택사항, 입력하지 않으면 Jenkins가 자동으로 고유 식별자 생성
+        - Description : 선택사항이나 입력 권장 (Username이 같은 다른 credential과 구분하기 위해)
 - Build Job 생성
    - 새로운 Item 생성 → Freestyle project → 이름 입력 후 설정 페이지로 이동 ex) test-api-build
    - 설정 값 입력
@@ -359,6 +376,16 @@ $ free -h
       - 빌드 유발
          - Poll SCM - Schedule : 정기적으로 소스 코드 관리(SCM) 저장소를 검사하여 변경 사항이 있는지 확인하여 변경 사항이 발견되면 빌드를 트리거하는 기능<br>
            ex) * * * * *
+      - 빌드 환경
+         - Use secret text(s) or file(s) → Add - Username and password (separated)
+            - 설정 값 입력
+               - Username Variable : username으로 설정할 변수명<br>
+                  ex) DOCKER_HUB_USERNAME
+               - Password Variable : password로 설정할 변수명<br>
+                  ex) DOCKER_HUB_ACCESS_TOKEN
+               - Credentials : 생성해둔 Docker Hub PAT<br>
+                  - 형식 : Username/*****(Credential에 Description로 설정한 값)
+                  - 예시 : develjsw/*****(Docker-Hub-PAT)
       - Build Steps
          - Execute shell (Linux OS 환경)
            ~~~
@@ -374,8 +401,13 @@ $ free -h
            ## docker image tag ##
            # docker image tag <docker hub registry>:<tag> <docker hub registry>:latest
            docker image tag develjsw/nest-api-registry:${BUILD_NUMBER} develjsw/nest-api-registry:latest
-           
-           작성중...
+
+           ## docker hub login ##
+           docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_ACCESS_TOKEN} docker.io
+
+           ## image upload to docker hub registry ##
+           docker push develjsw/nest-api-registry:${BUILD_NUMBER}
+           docker push develjsw/nest-api-registry:latest
            ~~~
 - Deploy Job 생성
    - 작성중... 
