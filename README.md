@@ -15,11 +15,6 @@
 
 <br>
 
-**[ AWS EC2 방화벽 설정 (Jenkins 접근 용도) ]**
-   - AWS console login → 서비스 → EC2 → 인스턴스(실행 중) → 인스턴스 ID 선택 → 보안 → 보안 그룹 선택 → 인바운드 규칙 편집 → 규칙 추가, 사용자 지정 TCP, 포트 범위 8080, 내 IP → 규칙 저장 
-
-<br>
-
 **[ AWS EC2 초기 설정 ]**
    - 초기 로그인
       - 방법1. Xshell(SSH Client Tool) → AWS에서 제공해주는 계정 (Amazon Linux AMI의 경우 - ec2-user)으로 Key Pair와 함께 로그인
@@ -152,7 +147,7 @@
 
 3. Cloud 환경 AWS EC2 기준 (참고 - https://green-joo.tistory.com/12)
     - 방화벽 설정 (EC2 서버 내부에 설치된 Jenkins 접근 허용)
-      - AWS 콘솔 로그인 → AWS EC2 인스턴스 → 보안 → 보안 그룹 → 인바운드 규칙 → 인바운드 규칙 편집 → 사용자 지정 TCP, 8080, 내 IP 추가
+      - AWS console login → AWS EC2 인스턴스 → 보안 → 보안 그룹 → 인바운드 규칙 → 인바운드 규칙 편집 → 사용자 지정 TCP, 8080, 내 IP 추가
     - JDK 설치(JRE 포함)
       ~~~
       $ sudo yum update -y
