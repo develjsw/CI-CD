@@ -239,6 +239,53 @@
    
 <br>
 
+**[ AWS EC2 docker 사용자 그룹에 jenkins 사용자 추가 ]**
+   - Execute shell에서 docker관련 명령어 사용을 위해 docker 그룹에 jenkins 사용자 추가
+      ~~~
+      # docker그룹에 jenkins 사용자 넣기
+      $ sudo usermod -aG docker jenkins
+
+      # docker그룹에 jenkins가 소속되었는지 확인
+      $ groups jenkins
+      ~~~
+
+<br>
+
+**[ Swap 영역 만들기 ]**
+<h6>
+   ** 참고 : AWS EC2 t2.micro의 RAM은 1GB 밖에 되지 않아 Jenkins 빌드/배포 job을 실행할 때 서버가 멈추는 현상이 발생하여 Swap 영역을 생성하여 임시 해소 <br>
+   프리티어가 아닌 실제 운영 서비스에서는 높은 사양의 인스턴스 사용 권장 <br>
+   만약 이미 빌드/배포를 시도하여 서버가 멈춘 상황에서는 인스턴스 재부팅 후 몇분 뒤 재시도
+   **
+</h6>
+
+~~~
+# 2GB 크기의 빈 파일을 /swapfile 이름으로 생성
+$ sudo dd if=/dev/zero of=/swapfile bs=128M count=16
+
+# /swapfile의 권한을 소유자만 읽고 쓸 수 있도록 설정
+$ sudo chmod 600 /swapfile
+
+# /swapfile을 스왑 공간으로 사용할 수 있도록 포맷
+$ sudo mkswap /swapfile
+
+# 시스템에서 /swapfile을 사용할 수 있도록 활성화
+$ sudo swapon /swapfile
+
+# 현재 활성화된 스왑 파티션이나 파일 정보를 표시
+$ sudo swapon -s
+
+# /etc/fstab 파일을 편집하여 스왑 파일 설정을 변경
+$ sudo vi /etc/fstab
+   # 파일 끝에 아래 내용 입력 후 저장
+   /swapfile swap swap defaults 0 0
+
+# 추가된 free 공간 확인
+$ free -h
+~~~
+
+<br>
+
 **[ Git 설치 및 설정 + 빌드/배포 디렉토리 생성 ]**
 1. Local 환경
     - 작성중...
@@ -293,53 +340,6 @@
       $ sudo -u jenkins git fetch
       $ sudo -u jenkins git pull
       ~~~
-
-<br>
-
-**[ AWS EC2 docker 사용자 그룹에 jenkins 사용자 추가 ]**
-   - Execute shell에서 docker관련 명령어 사용을 위해 docker 그룹에 jenkins 사용자 추가
-      ~~~
-      # docker그룹에 jenkins 사용자 넣기
-      $ sudo usermod -aG docker jenkins
-
-      # docker그룹에 jenkins가 소속되었는지 확인
-      $ groups jenkins
-      ~~~
-
-<br>
-
-**[ Swap 영역 만들기 ]**
-<h6>
-   ** 참고 : AWS EC2 t2.micro의 RAM은 1GB 밖에 되지 않아 Jenkins 빌드/배포 job을 실행할 때 서버가 멈추는 현상이 발생하여 Swap 영역을 생성하여 임시 해소 <br>
-   프리티어가 아닌 실제 운영 서비스에서는 높은 사양의 인스턴스 사용 권장 <br>
-   만약 이미 빌드/배포를 시도하여 서버가 멈춘 상황에서는 인스턴스 재부팅 후 몇분 뒤 재시도
-   **
-</h6>
-
-~~~
-# 2GB 크기의 빈 파일을 /swapfile 이름으로 생성
-$ sudo dd if=/dev/zero of=/swapfile bs=128M count=16
-
-# /swapfile의 권한을 소유자만 읽고 쓸 수 있도록 설정
-$ sudo chmod 600 /swapfile
-
-# /swapfile을 스왑 공간으로 사용할 수 있도록 포맷
-$ sudo mkswap /swapfile
-
-# 시스템에서 /swapfile을 사용할 수 있도록 활성화
-$ sudo swapon /swapfile
-
-# 현재 활성화된 스왑 파티션이나 파일 정보를 표시
-$ sudo swapon -s
-
-# /etc/fstab 파일을 편집하여 스왑 파일 설정을 변경
-$ sudo vi /etc/fstab
-   # 파일 끝에 아래 내용 입력 후 저장
-   /swapfile swap swap defaults 0 0
-
-# 추가된 free 공간 확인
-$ free -h
-~~~
 
 <br>
 
