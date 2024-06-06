@@ -313,7 +313,7 @@ $ free -h
       ~~~
     - git branch별 환경 구성
       ~~~
-      $ sudo mkdir -p /data/프로젝트명/브랜치명
+      $ mkdir -p /data/프로젝트명/브랜치명
          ex) $ mkdir -p /data/test-api/develop
          ex) $ mkdir -p /data/test-api/master
          ex) $ mkdir -p /data/test-api/main
