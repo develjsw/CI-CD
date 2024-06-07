@@ -213,7 +213,7 @@
         Jenkins 관리 → Nodes → Built-In Node 설정 → Disk Space Monitoring Thresholds의 Free Temp Space Threshold 값 적절하게 설정 변경
         - <h6>** 참고 : 'Disk space is below threshold of 1.00 GiB. Only 471.49 MiB out of 474.78 MiB left on /tmp.'의 문구를 통해 /tmp 디렉토리의 남은 용량인 471.49MiB 값이 설정된 임계값(Free Temp Space Threshold)인 1GiB(1024MiB)보다 낮아서 에러가 발생하고 빌드가 실행이 안되는 상태로 Free Temp Space Threshold 값을 1GiB → 200MiB로 변경해주어 해결 **</h6>
 4. Cloud 환경 AWS EC2 기준 Docker Image 활용
-
+     - 작성중..		
 <br>
 
 **[ Github Personal Access Tokens 발급 ]**
@@ -242,6 +242,9 @@
 
       # docker그룹에 jenkins가 소속되었는지 확인
       $ groups jenkins
+
+      # 설정 반영을 위한 jenkins 데몬 재시작
+      $ sudo systemctl restart jenkins
       ~~~
 
 <br>
@@ -384,23 +387,25 @@ $ free -h
       - Build Steps
          - Execute shell (Linux OS 환경)
            ~~~
-           ## git fetch & pull ##
+           ## 소스코드 최신화 ##
            cd /data/test-api/develop
            git fetch
            git pull
            
-           ## docker image build ##
-           # docker build -t <docker hub registry>:<tag> -f <도커 파일 위치> .
+           ## 최신 소스코드 이미지화 ##
+           # docker build -t <registry>:<tag> -f <도커파일 위치> . #
            docker build -t develjsw/nest-api-registry:${BUILD_NUMBER} -f dockerfile/Dockerfile-local .
 
-           ## docker image tag ##
-           # docker image tag <docker hub registry>:<tag> <docker hub registry>:latest
+           ## 최신 소스코드 이미지(=히스토리용 이미지)를 바탕으로 배포용 이미지(=latest) 생성 ##
+           # docker image tag <registry>:<tag> <registry>:latest #
            docker image tag develjsw/nest-api-registry:${BUILD_NUMBER} develjsw/nest-api-registry:latest
 
-           ## docker hub login ##
+           ## docker 로그인 ##
            docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_ACCESS_TOKEN} docker.io
 
-           ## image upload to docker hub registry ##
+           ## registry(docker hub)에 이미지 업로드 ##
+           # docker push <registry>:<tag> #
+           # docker push <registry>:latest #
            docker push develjsw/nest-api-registry:${BUILD_NUMBER}
            docker push develjsw/nest-api-registry:latest
            ~~~
