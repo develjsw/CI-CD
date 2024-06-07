@@ -401,7 +401,8 @@ $ free -h
            docker image tag develjsw/nest-api-registry:${BUILD_NUMBER} develjsw/nest-api-registry:latest
 
            ## docker 로그인 ##
-           docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_ACCESS_TOKEN} docker.io
+           # docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_ACCESS_TOKEN} docker.io # Docker Version 1.11 ~ 17
+           echo ${DOCKER_HUB_ACCESS_TOKEN} | docker login --username ${DOCKER_HUB_USERNAME} --password-stdin # Docker Version 18 이후
 
            ## registry(docker hub)에 이미지 업로드 ##
            # docker push <registry>:<tag> #
