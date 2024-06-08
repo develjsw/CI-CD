@@ -1,0 +1,32 @@
+[ docker image registry 종류와 특징 ]
+1. Docker Hub
+  - 설명 : Docker의 공식 퍼블릭 레지스트리
+  - 특징 : 커뮤니티가 공유하는 많은 이미지 사용 가능
+  - 권한/인증 방식 : 사용자 이름과 비밀번호를 사용한 기본 인증, 개인 액세스 토큰(PAT, Personal Access Token)
+  - 권한/인증 관리 : Docker CLI에서 docker login 명령어를 사용하여 로그인, 개인 액세스 토큰을 생성하여 사용하면 비밀번호 대신 안전하게 인증
+2. Amazon Elastic Container Registry (ECR)
+  - 설명 : AWS에서 제공하는 Docker 이미지 레지스트리 서비스
+  - 특징 : AWS 서비스와의 통합이 용이, IAM(Identity and Access Management)을 통한 세밀한 접근제어 가능
+  - 권한/인증 방식 : AWS IAM 사용자 및 역할 기반 인증
+  - 권한/인증 관리 : AWS CLI를 사용하여 'aws ecr get-login-password' 명령어로 인증 토큰을 생성하고
+  Docker CLI에서 해당 토큰을 사용하여 로그인, IAM 정책을 통해 세밀한 접근 권한을 설정
+3. Google Container Registry (GCR)
+  - 설명 : Google Cloud Platform에서 제공하는 Docker 이미지 레지스트리
+  - 특징 : Google Cloud 서비스와 원활하게 통합 가능, 높은 보안성과 신뢰성 보장
+  - 권한/인증 방식 : Google Cloud IAM, 서비스 계정 키
+  - 권한/인증 관리 : 'gcloud auth configure-docker' 명령어를 사용하여 Docker CLI에 인증 정보를 설정,
+  서비스 계정 키 파일을 사용하여 프로그램적으로 인증할 수도 있음
+4. Azure Container Registry (ACR)
+  - 설명 : Microsoft Azure에서 제공하는 Docker 이미지 레지스트리
+  - 특징 : Azure 서비스와의 깊은 통합, Azure Active Directory를 통한 인증 및 권한 관리
+  - 권한/인증 방식 : Azure AD 사용자 및 서비스 주체, 관리 ID
+  - 권한/인증 관리 : 'az acr login' 명령어를 사용하여 Azure CLI를 통해 인증, 서비스 주체 또는 관리 ID를 통해 프로그래밍 방식으로 인증을 관리
+5. GitHub Container Registry
+  - 설명 : GitHub의 Docker 이미지 레지스트리 서비스
+  - 특징 : GitHub Actions와의 긴밀한 통합, GitHub의 사용자 및 조직 관리 시스템과 연동
+  - 권한/인증 방식 : GitHub 사용자 및 조직, 개인 액세스 토큰 (PAT)
+  - 권한/인증 관리 : 'docker login ghcr.io' 명령어를 사용하여 GitHub 사용자 이름과 PAT로 로그인,
+  GitHub Actions를 사용하여 워크플로우 내에서 자동으로 인증할 수도 있음
+	....등등
+
+
