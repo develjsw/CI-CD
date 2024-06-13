@@ -63,44 +63,8 @@
    - 작성중...
 
 2. Cloud 환경 AWS EC2 기준
-   <h6>** 참고 : 2023년 이전에는 amazon-linux-extras 설치 후 amazon-linux-extras를 통해 docker를 설치 했었으나, 2023년부터 해당 패키지는 없어졌고 yum을 통해 docker 바로 설치 가능해짐 (공식 문서 - https://docs.aws.amazon.com/ko_kr/serverless-application-model/latest/developerguide/install-docker.html) **</h6>
-
-   1. Amazon Linux IAM 2022년 이하 버전에서 docker 설치
-      ~~~
-      # yum 패키지 업데이트
-      $ sudo yum update -y
+   - https://github.com/develjsw/Docker	
    
-      # amazon-linux-extras 패키지 설치
-      $ sudo yum install -y amazon-linux-extras
-   
-      # docker 설치
-      $ sudo amazon-linux-extras install docker -y
-   
-      # docker 상태/버전 확인
-      $ sudo systemctl status docker
-      $ docker --version
-   
-      # docker 데몬 시작, 부팅 시 자동 재시작
-      $ sudo systemctl start docker
-      $ sudo systemctl enable docker
-      ~~~
-   3. Amazon Linux IAM 2023년 이상 버전에서 docker 설치
-      ~~~
-      # yum 패키지 업데이트
-      $ sudo yum update -y
-   
-      # docker 설치
-      $ sudo yum install -y docker
-   
-      # docker 설치/상태/버전 확인
-      $ rpm -qa | grep docker
-      $ sudo systemctl status docker
-      $ docker --version
-   
-      # docker 데몬 시작, 부팅 시 자동 재시작
-      $ sudo systemctl start docker
-      $ sudo systemctl enable docker
-      ~~~
 <br>
 
 **[ Jenkins 설치 및 설정 ]**
