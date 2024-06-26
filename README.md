@@ -19,7 +19,7 @@
    - 초기 로그인
       - 방법1. Xshell(SSH Client Tool) → AWS에서 제공해주는 계정 (Amazon Linux AMI의 경우 - ec2-user)으로 Key Pair와 함께 로그인
       - 방법2. AWS console login → 서비스 → EC2 → 인스턴스(실행 중) → 해당 인스턴스 ID 클릭 → 연결 버튼 클릭 → 연결 버튼 클릭
-   - (미사용) 신규 유저 생성
+   - ~(미사용) 신규 유저 생성~
       ~~~
       # 유저 생성
       $ sudo adduser <생성할 유저명> -u <UID>
@@ -38,7 +38,7 @@
       $ cat /etc/group | grep <생성한 유저명>
          ex) $ cat /etc/group | grep test
       ~~~
-   - (미사용) 유저 패스워드 추가
+   - ~(미사용) 유저 패스워드 추가~
       ~~~
       $ sudo passwd <생성한 유저명>
          ex) sudo passwd test
